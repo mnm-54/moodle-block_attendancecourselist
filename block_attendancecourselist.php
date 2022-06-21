@@ -29,6 +29,18 @@ class block_attendancecourselist extends block_base
         $this->title = get_string('attendancecourselist', 'block_attendancecourselist');
     }
 
+    /**
+     * Set the applicable formats for this block to all
+     * @return array
+     */
+    function applicable_formats() {
+        if (has_capability('moodle/site:config', context_system::instance())) {
+            return array('all' => true);
+        } else {
+            return array('site' => true);
+        }
+    }
+
     public function get_content()
     {
         if ($this->content !== null) {
@@ -39,6 +51,9 @@ class block_attendancecourselist extends block_base
         array_shift($courses);
 
         $this->content         =  new stdClass;
+        if (!has_capability('block/attendancecourselist:viewlist', $this->page->context)) {
+            return $this->content->text = "You dont have the permission";
+        }
         $this->content->text   = '<h1 style="display: flex; justify-content: center;font-size: 1.5em; align-items: center;">Available courses</h1><hr><br><br>';
         foreach ($courses as $course) {
             $course_img_url = $CFG->wwwroot . '/local/participant_image_upload/manage.php?cid=' . $course->id;

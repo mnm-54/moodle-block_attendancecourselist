@@ -46,4 +46,15 @@ $capabilities = array(
 
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
+
+    'block/attendancecourselist:viewlist' => array(
+
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes' => array(
+            'user' => CAP_PROHIBIT,
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        ),
+    ),
 );
