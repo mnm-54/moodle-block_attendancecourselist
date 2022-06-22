@@ -23,7 +23,7 @@
  */
 
 $string['pluginname'] = 'Courselist Attendance Block';
-$string['attendancecourselist'] = 'Courselist for attendance check';
+$string['attendancecourselist'] = 'Attendance plugin available courses';
 $string['attendancecourselist:addinstance'] = 'Add a new Courselist Attendance Block';
 $string['attendancecourselist:myaddinstance'] = 'Add a new Courselist Attendance Block to the My Moodle page';
-$string['footer'] = 'End of list';
+$string['students_text'] = 'Students';

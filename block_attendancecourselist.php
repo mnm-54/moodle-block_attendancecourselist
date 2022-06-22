@@ -38,15 +38,23 @@ class block_attendancecourselist extends block_base
         $courses = $DB->get_records("course");
         array_shift($courses);
 
-        $this->content         =  new stdClass;
-        $this->content->text   = '<h1 style="display: flex; justify-content: center;font-size: 1.5em; align-items: center;">Available courses</h1><hr><br><br>';
+        $this->content = new stdClass;
+        $this->content->text = "<hr>";
+        
         foreach ($courses as $course) {
-            $course_img_url = $CFG->wwwroot . '/local/participant_image_upload/manage.php?cid=' . $course->id;
-            $this->content->text .= "<div>" . $course->fullname
-                . '<button type="button" style="float: right;border-radius:5px; padding:5px" class="btn-primary" onclick="location.href=\'' . $course_img_url . '\'">Student-list</button>'
-                . "</div><br><br>";
+            $course_img_url = new moodle_url('/local/participant_image_upload/manage.php', array('cid' => $course->id));
+            $buttontext = get_string('students_text', 'block_attendancecourselist');
+            $this->content->text .= "
+            <div class='d-flex justify-content-between mb-3'>
+                <div class='d-flex align-items-center'>" . $course->fullname . "</div>
+                <div>
+                    <a href='" . $course_img_url . "' class='btn btn-primary'>
+                      " . $buttontext . "     
+                    </a>
+                </div>
+            </div>
+            ";
         }
-        $this->content->footer = get_string('footer', 'block_attendancecourselist');
 
         return $this->content;
     }
