@@ -35,12 +35,14 @@ class block_attendancecourselist extends block_base
             return $this->content;
         }
         global $DB, $CFG;
-        $courses = $DB->get_records("course");
+        $courses = $DB->get_records_select("course", "visible = :visible", array('visible' => 1));
+
+
         array_shift($courses);
 
         $this->content = new stdClass;
         $this->content->text = "<hr>";
-        
+
         foreach ($courses as $course) {
             $course_img_url = new moodle_url('/local/participant_image_upload/manage.php', array('cid' => $course->id));
             $buttontext = get_string('students_text', 'block_attendancecourselist');
