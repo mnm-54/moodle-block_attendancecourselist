@@ -28,7 +28,22 @@ class block_attendancecourselist extends block_base
     {
         $this->title = get_string('attendancecourselist', 'block_attendancecourselist');
     }
+    public function can_view() {
+        global $DB, $USER;
+        $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'editingteacher']);
+        $coursecreatorroleid = $DB->get_field('role', 'id', ['shortname' => 'coursecreator']);
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
 
+        $teachercap = $DB->record_exists('role_assignments', ['userid' => $USER->id, 'roleid' => $teacherroleid]);
+        $coursecreatorcap =  $DB->record_exists('role_assignments', ['userid' => $USER->id, 'roleid' => $coursecreatorroleid]);
+        $managercap = $DB->record_exists('role_assignments', ['userid' => $USER->id, 'roleid' => $managerroleid]);
+
+        if(is_siteadmin() || $teachercap || $managercap || $coursecreatorcap) {
+            return true;
+        } else {
+            false;
+        }
+    }
     public function get_content()
     {
         if ($this->content !== null) {
@@ -36,7 +51,11 @@ class block_attendancecourselist extends block_base
         }
         global $DB, $CFG;
         $courses = $DB->get_records_select("course", "visible = :visible", array('visible' => 1));
+        if(!$this->can_view()) {
 
+            $this->content = get_string('no_permission', 'block_attendancecourselist');
+            return $this->content;
+        }
 
         array_shift($courses);
 
