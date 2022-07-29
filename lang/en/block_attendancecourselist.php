@@ -27,3 +27,4 @@ $string['attendancecourselist'] = 'Attendance plugin available courses';
 $string['attendancecourselist:addinstance'] = 'Add a new Courselist Attendance Block';
 $string['attendancecourselist:myaddinstance'] = 'Add a new Courselist Attendance Block to the My Moodle page';
 $string['students_text'] = 'Students';
+$string['no_permission'] = 'You do not have enough permission to view this block';
